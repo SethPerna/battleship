@@ -3,6 +3,17 @@ class Ship
   def initialize(name, length)
     @name = name
     @length = length
-    @health = health
+  end
+
+  def health
+    length
+  end
+
+  def sunk?
+    if health == 0
+      true
+    else
+      false
+    end
   end
 end
