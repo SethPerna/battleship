@@ -21,10 +21,17 @@ RSpec.describe Cell do
   end
 
   before :each do
-      @cruiser = Ship.new("Cruiser", 3)
+    @cruiser = Ship.new("Cruiser", 3)
     end
 
       it "checks if a ship exists" do
         expect(@cruiser).to be_an_instance_of(Ship)
       end
+
+      it "checks if a ship is placed" do
+        @cell.place_ship(@cruiser)
+        expect(@cell.ship).to eq(@cruiser)
+      end
+
+      
 end
