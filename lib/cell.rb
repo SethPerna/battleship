@@ -3,10 +3,10 @@ class Cell
                 :ship
 
 
-
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
+    @fired_upon = false
   end
 
   def empty?
@@ -19,15 +19,27 @@ class Cell
 
   def place_ship(ships)
     @ship = ships
-    ships = Ship.new(@name, @health)
   end
 
   def fired_upon?
-    false
+     @fired_upon
   end
 
   def fire_upon
-    fired_upon? == true
     @ship.hit
+    @fired_upon = true
   end
+
+  def render
+    if fired_upon? == false
+      "."
+    elsif fired_upon? == true && empty? == true
+      "M"
+    elsif fired_upon? && empty? == false
+      "H"
+    elsif fired_upon? && @ship.sunk?
+      "X"
+    end
+  end
+
 end

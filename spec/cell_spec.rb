@@ -48,4 +48,10 @@ RSpec.describe Cell do
         @cell.fire_upon
         expect(@cruiser.health).to eq(2)
       end
+
+      it "after being hit return being fired upon true" do
+        @cell.place_ship(@cruiser)
+        @cell.fire_upon
+        expect(@cell.fired_upon?).to be true
+      end
 end
