@@ -1,24 +1,37 @@
 class Cell
   attr_accessor :coordinate,
                 :ship
-
-
   def initialize(coordinate)
     @coordinate = coordinate
     @ship = nil
+    @fired_upon = false
   end
-
   def empty?
-    if @ship == nil
+    if  @ship == nil
       true
     else
       false
     end
   end
-
-  def place_ship(cruiser)
-    @ship = cruiser
-    cruiser = Ship.new(@ship, @health)
-
+  def place_ship(ships)
+    @ship = ships
   end
-end
+  def fired_upon?
+     @fired_upon
+  end
+  def fire_upon
+    @ship.hit
+    @fired_upon = true
+  end
+  def render
+    if fired_upon? == false
+      “.”
+    elsif fired_upon? == true && empty? == true
+      “M”
+    elsif fired_upon? && empty? == false
+      “H”
+    elsif fired_upon? && @ship.sunk?
+      “X”
+    end
+  end
+end
