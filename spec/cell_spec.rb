@@ -29,12 +29,12 @@ RSpec.describe Cell do
       end
 
       it "checks if a ship is placed" do
-        @cell.place_ship(@cruiser, "B4")
+        @cell.place_ship(@cruiser)
         expect(@cell.ship).to eq(@cruiser)
       end
 
       it "checks if coordinate is occupied" do
-        @cell.place_ship(@cruiser, "B4")
+        @cell.place_ship(@cruiser)
         expect(@cell.empty?).to be false
       end
 end
