@@ -63,8 +63,56 @@ RSpec.describe Cell do
           end
 
           it "gets fired upon and misses" do
-            @cell_1.place_ship(@cruiser)
             @cell_1.fire_upon
             expect(@cell_1.render).to eq("M")
+          end
+
+          it "renders another empty cell" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            expect(@cell_2.render).to eq(".")
+          end
+
+          it "shows an optional argument to #render if user" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            expect(@cell_2.render(true)).to eq("S")
+          end
+
+          it "returns H when #fire_upon is a hit" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            @cell_2.fire_upon
+            expect(@cell_2.render).to eq("H")
+          end
+
+          it "checks if ship is #sunk?" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            @cell_2.fire_upon
+            expect(@cruiser.sunk?).to be false
+          end
+
+          it "sinks a ship" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            @cell_2.fire_upon
+            @cruiser.hit
+            @cruiser.hit
+            expect(@cruiser.sunk?).to be true
+          end
+          it "returns X for a #sunk ship" do
+            @cell_2 = Cell.new("C3")
+            @cruiser = Ship.new("Cruiser", 3)
+            @cell_2.place_ship(@cruiser)
+            @cell_2.fire_upon
+            @cruiser.hit
+            @cruiser.hit
+            expect(@cell_2.render).to eq("X")
           end
 end
