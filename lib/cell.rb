@@ -25,13 +25,13 @@ class Cell
   end
   def render
     if fired_upon? == false
-      “.”
-    elsif fired_upon? == true && empty? == true
-      “M”
-    elsif fired_upon? && empty? == false
-      “H”
+      "."
+    elsif fired_upon? == true && empty? == false
+      "M"
+    elsif fired_upon? && empty? == true
+      "H"
     elsif fired_upon? && @ship.sunk?
-      “X”
+      "X"
     end
   end
-end
+end
