@@ -37,4 +37,22 @@ RSpec.describe Cell do
         @cell.place_ship(@cruiser)
         expect(@cell.empty?).to be false
       end
+
+      it "checks if fired up" do
+        @cell.place_ship(@cruiser)
+        expect(@cell.fired_upon?).to be false
+      end
+
+      it "checks if health -1 after being hit" do
+        @cell.place_ship(@cruiser)
+        @cell.fire_upon
+        expect(@cruiser.health).to eq(2)
+      end
+
+      it "after being hit return being fired upon true" do
+        @cell.place_ship(@cruiser)
+        @cell.fire_upon
+        expect(@cell.fired_upon?).to be true
+      end
+
 end
