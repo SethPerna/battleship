@@ -7,7 +7,7 @@ class Cell
     @fired_upon = false
   end
   def empty?
-    if  @ship == nil
+    if  @ship == nil #@ship.nil
       true
     else
       false
@@ -20,18 +20,22 @@ class Cell
      @fired_upon
   end
   def fire_upon
-    @ship.hit
+    if empty? == false
+      @ship.hit
+    end
     @fired_upon = true
   end
-  def render
-    if fired_upon? == false
-      “.”
+  def render(user = false)
+    if !fired_upon? && !empty? && user == true
+      "S"
+    elsif fired_upon? == false
+      "."
+    elsif fired_upon? == true && empty? == false && @ship.sunk? == false
+      "H"
     elsif fired_upon? == true && empty? == true
-      “M”
-    elsif fired_upon? && empty? == false
-      “H”
-    elsif fired_upon? && @ship.sunk?
-      “X”
+      "M"
+    elsif fired_upon? == true && @ship.sunk? == true
+      "X"
     end
   end
-end
+end

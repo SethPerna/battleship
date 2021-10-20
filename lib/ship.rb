@@ -1,5 +1,5 @@
 class Ship
-  attr_reader :name, :health
+  attr_accessor :name, :health
   def initialize(name, health)
     @name = name
     @health = health
