@@ -43,4 +43,9 @@ RSpec.describe do
     expect(@cruiser).to be_an_instance_of(Ship)
     expect(@submarine).to be_an_instance_of(Ship)
   end
+
+  it "validates placement" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
+    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
+  end
 end
