@@ -25,4 +25,6 @@ class Board
     @cells.include?(coordinates)
   end
 
+  def valid_placement?
+  end
 end
