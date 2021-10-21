@@ -21,4 +21,16 @@ RSpec.describe do
     expect(board.cells["D3"]).to be_a(Cell)
     expect(board.cells["D4"]).to be_a(Cell)
   end
+
+  it "can validate coordinates" do
+    board = Board.new
+
+    expect(board.validate_coordinate?("A1")).to be true
+    expect(board.validate_coordinate?("D4")).to be true
+    expect(board.validate_coordinate?("A5")).to be false
+    expect(board.validate_coordinate?("E1")).to be false
+    expect(board.validate_coordinate?("A22")).to be false
+
+  end
+
 end

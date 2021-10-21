@@ -21,4 +21,8 @@ class Board
     }
   end
 
+  def validate_coordinate?(coordinates)
+    @cells.include?(coordinates)
+  end
+
 end
