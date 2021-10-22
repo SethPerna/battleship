@@ -49,10 +49,6 @@ RSpec.describe do
     expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
   end
 
-  xit "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
-    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
-  end
 
   it "takes the coordinates given and splits the array" do
     expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
@@ -68,19 +64,39 @@ RSpec.describe do
 
 
   it "checks that the letters pulled are the not the same" do
-    expect(@board.check_letters(["A", "A", "B"])).to be false
+    expect(@board.check_letters(["A", "A", "B"])).to eq false
   end
 
   it "checks that the letters pulled are the same" do
-    expect(@board.check_letters(["A", "A", "A"])).to be true
+    expect(@board.check_letters(["A", "A", "A"])).to eq true
   end
 
   it "checks if the numbers are the same " do
-    expect(@board.check_numbers(["1", "1", "1"])).to be true
+    expect(@board.check_numbers(["1", "1", "1"])).to eq true
   end
 
   it "checks if the numbers are the same " do
-    expect(@board.check_numbers(["1", "1", "2"])).to be false
+    expect(@board.check_numbers(["1", "1", "2"])).to eq false
+  end
 
+  it "checks if the numbers are consecutive" do
+    expect(@board.consecutive_numbers(["1", "2", "3"])).to eq true
+  end
+
+  it "checks if the numbers are not consecutive_numbers" do
+    expect(@board.consecutive_numbers(["1", "3", "3"])).to eq false
+  end
+
+  it "checks if the letters are consecutive " do
+  expect(@board.consecutive_letters(["A", "B", "C"])).to eq true
+  end
+
+  it "checks if the letters are not consecutive " do
+  expect(@board.consecutive_letters(["A", "B", "A"])).to eq false
+  end
+
+  xit "validates more possible placements" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
+    # expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
   end
 end

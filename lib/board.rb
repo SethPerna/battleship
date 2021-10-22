@@ -29,9 +29,17 @@ class Board
   def valid_placement?(ship, ship_coordinate)
       if ship.length == ship_coordinate.count
         true
+        # if consecutive_letters == true && check_numbers == true
+        #   true
+        # elsif consecutive_numbers == true && check_letters == true
+        #   true
+        # else
+        #   false
+        # end
       else
         false
       end
+
   end
 
   def coord_split(ship_coordinate)
@@ -50,6 +58,7 @@ class Board
       number << num.slice(1)
       end
       check_numbers(number)
+      consecutive_numbers(number)
     number
   end
 
@@ -59,6 +68,7 @@ class Board
         letter << letters.slice(0)
       end
       check_letters(letter)
+      consecutive_letters(letter)
       letter
   end
 
@@ -77,4 +87,42 @@ class Board
        false
      end
    end
+
+   def consecutive_numbers(ship_coordinate)
+     if ship_coordinate.min != ship_coordinate.max
+       true
+       # if ship.length == 3
+          if ship_coordinate.min.ord + 1 == ship_coordinate[1].ord && (ship_coordinate.max.ord - 1) == ship_coordinate[1].ord
+            true
+          else
+            false
+          end
+        # elsif  ship.length == 2
+        #   if ship_coordinate.min + 1 == ship_coordinate.max
+        #     true
+        #   end
+      # end
+    elsif ship_coordinate.min == ship_coordinate.max
+      false
+    end
+  end
+
+  def consecutive_letters(ship_coordinate)
+    if ship_coordinate.min != ship_coordinate.max
+      true
+      # if ship.length == 3
+         if ship_coordinate.min.ord + 1 == ship_coordinate[1].ord && (ship_coordinate.max.ord - 1) == ship_coordinate[1].ord
+           true
+         else
+           false
+         end
+       # elsif  ship.length == 2
+       #   if ship_coordinate.min + 1 == ship_coordinate.max
+       #     true
+       #   end
+     # end
+   elsif ship_coordinate.min == ship_coordinate.max
+     false
+   end
+ end
 end
