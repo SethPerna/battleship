@@ -27,102 +27,126 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinate)
+          letter = []
+          number = []
+          ship_coordinate.each do |coord|
+            letter << coord[0].ord
+            number << coord[1]
+          end
+
       if ship.length == ship_coordinate.count
         true
-        # if consecutive_letters == true && check_numbers == true
-        #   true
-        # elsif consecutive_numbers == true && check_letters == true
-        #   true
-        # else
-        #   false
-        # end
+        if ship.length == 3
+          if consecutive_letters(letter) == true && check_numbers(number) == true
+            true
+          elsif consecutive_numbers(number) == true && check_letters(letter) == true
+            true
+          else
+            false
+          end
+        elsif ship.length == 2
+          if consecutive_letters_sub(letter) == true && check_numbers(number) == true
+            true
+          elsif consecutive_numbers_sub(number) == true && check_letters(letter) == true
+            true
+          else
+            false
+          end
+        end
       else
         false
       end
-
   end
 
-  def coord_split(ship_coordinate)
-    letter_num = []
-    ship_coordinate.each do |split_coord| #[["A", "1"], ["A", "2"], ["A", "4"]]
-      letter_num << split_coord.split('')
-    end
-    pull_numbers(letter_num)
-    pull_letters(letter_num)
-    letter_num
-  end
+  # def coord_split(ship_coordinate)
+  #   letter_num = []
+  #   ship_coordinate.each do |split_coord| #[["A", "1"], ["A", "2"], ["A", "4"]]
+  #     letter_num << split_coord.split('')
+  #   end
+  #   pull_numbers(letter_num)
+  #   pull_letters(letter_num)
+  #   letter_num
+  # end
+  #
+  # def pull_numbers(letter_num)
+  #     number = []
+  #     letter_num.each do |num|
+  #       number << num.slice(1)
+  #     end
+  #     check_numbers(number)
+  #     consecutive_numbers(number)
+  #   number
+  # end
+  #
+  # def pull_letters(letter_num)
+  #     letter = []
+  #     letter_num.each do |letters|
+  #       letter << letters.slice(0)
+  #     end
+  #     check_letters(letter)
+  #     consecutive_letters(letter)
+  #   letter
+  # end
 
-  def pull_numbers(ship_coordinate)
-      number = []
-      ship_coordinate.each do |num|
-      number << num.slice(1)
-      end
-      check_numbers(number)
-      consecutive_numbers(number)
-    number
-  end
-
-  def pull_letters(ship_coordinate)
-      letter = []
-      ship_coordinate.each do |letters|
-        letter << letters.slice(0)
-      end
-      check_letters(letter)
-      consecutive_letters(letter)
-      letter
-  end
-
-  def check_letters(ship_coordinate)
-       if ship_coordinate.min == ship_coordinate.max && ship_coordinate[1] == ship_coordinate.max
+  def check_letters(letter)
+       if letter.min == letter.max && letter[1] == letter.max
           true
         else
           false
       end
   end
 
-  def check_numbers(ship_coordinate)
-    if ship_coordinate.min == ship_coordinate.max && ship_coordinate[1] == ship_coordinate.max
+  def check_numbers(number)
+    if number.min == number.max && number[1] == number.max
        true
      else
        false
      end
    end
 
-   def consecutive_numbers(ship_coordinate)
-     if ship_coordinate.min != ship_coordinate.max
+   def consecutive_numbers(number)
+     if number.min != number.max
        true
-       # if ship.length == 3
-          if ship_coordinate.min.ord + 1 == ship_coordinate[1].ord && (ship_coordinate.max.ord - 1) == ship_coordinate[1].ord
+          if number.min.ord + 1 == number[1].ord && number.max.ord - 1 == number[1].ord
             true
           else
             false
           end
-        # elsif  ship.length == 2
-        #   if ship_coordinate.min + 1 == ship_coordinate.max
-        #     true
-        #   end
-      # end
-    elsif ship_coordinate.min == ship_coordinate.max
+    elsif number.min == number.max
       false
     end
   end
 
-  def consecutive_letters(ship_coordinate)
-    if ship_coordinate.min != ship_coordinate.max
-      true
-      # if ship.length == 3
-         if ship_coordinate.min.ord + 1 == ship_coordinate[1].ord && (ship_coordinate.max.ord - 1) == ship_coordinate[1].ord
-           true
-         else
-           false
-         end
-       # elsif  ship.length == 2
-       #   if ship_coordinate.min + 1 == ship_coordinate.max
-       #     true
-       #   end
-     # end
-   elsif ship_coordinate.min == ship_coordinate.max
-     false
+    def consecutive_letters(letter)
+      if letter.min != letter.max
+        true
+           if letter.min.ord + 1 == letter[1].ord && (letter.max.ord - 1) == letter[1].ord
+             true
+           else
+             false
+           end
+     elsif letter.min == letter.max
+       false
+     end
    end
+
+   def consecutive_letters_sub(letter)
+     if letter.min != letter.max
+       true
+       if letter.min.ord + 1 == letter[1].ord
+       end
+    else
+      false
+    end
+  end
+  def consecutive_numbers_sub(number)
+    if number.min != number.max
+      true
+      if number.min.ord + 1 == number[1].ord
+        true
+      end
+    else false
+  end
  end
+
 end

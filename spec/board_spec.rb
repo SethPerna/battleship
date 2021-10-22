@@ -44,23 +44,19 @@ RSpec.describe do
     expect(@submarine).to be_an_instance_of(Ship)
   end
 
-  it "validates placement" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
-    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
-  end
 
 
-  it "takes the coordinates given and splits the array" do
-    expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
-  end
-
-  it "collects the numbers from the split arrays" do
-    expect(@board.pull_numbers([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["1", "2", "4"])
-  end
-
-  it "collects the letters from the split arrays" do
-    expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
-  end
+  # xit "takes the coordinates given and splits the array" do
+  #   expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
+  # end
+  #
+  # xit "collects the numbers from the split arrays" do
+  #   expect(@board.pull_numbers([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["1", "2", "4"])
+  # end
+  #
+  # xit "collects the letters from the split arrays" do
+  #   expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
+  # end
 
 
   it "checks that the letters pulled are the not the same" do
@@ -95,8 +91,18 @@ RSpec.describe do
   expect(@board.consecutive_letters(["A", "B", "A"])).to eq false
   end
 
-  xit "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
-    # expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
+  it "validates placement" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
+    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
   end
+
+  it "validates more possible placements" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
+    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
+  end
+
+  it "validates more possible placements" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
+  end
+
 end
