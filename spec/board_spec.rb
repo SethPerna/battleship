@@ -33,4 +33,40 @@ RSpec.describe do
 
   end
 
+  before :each do
+    @board = Board.new
+    @cruiser = Ship.new("Cruiser", 3)
+    @submarine = Ship.new("Submarine", 2)
+  end
+  it "exists" do
+    expect(@board).to be_an_instance_of(Board)
+    expect(@cruiser).to be_an_instance_of(Ship)
+    expect(@submarine).to be_an_instance_of(Ship)
+  end
+
+  it "validates placement" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
+    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
+  end
+
+  xit "validates more possible placements" do
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
+    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
+  end
+
+  it "takes the coordinates given and splits the array" do
+    expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
+  end
+
+  it "collects the numbers from the split arrays" do
+    expect(@board.pull_numbers([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["1", "2", "4"])
+  end
+
+  it "collects the letters from the split arrays" do
+    expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
+  end
+
+  it "checks that the numbers pulled are the same" do
+
+  end
 end
