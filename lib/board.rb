@@ -52,8 +52,7 @@ class Board
     number
   end
 
-
-  def pull_letters
+  def pull_letters(ship_coordinate)
       letter = []
       ship_coordinate.each do |letters|
         letter << letters.slice(0)

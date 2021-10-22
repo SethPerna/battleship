@@ -63,7 +63,7 @@ RSpec.describe do
   end
 
   it "collects the letters from the split arrays" do
-    expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "B", "C"])
+    expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
   end
 
 end
