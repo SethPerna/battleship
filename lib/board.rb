@@ -49,6 +49,7 @@ class Board
       ship_coordinate.each do |num|
       number << num.slice(1)
       end
+      check_numbers(number)
     number
   end
 
@@ -57,8 +58,23 @@ class Board
       ship_coordinate.each do |letters|
         letter << letters.slice(0)
       end
-    letter
+      check_letters(letter)
+      letter
   end
 
+  def check_letters(ship_coordinate)
+       if ship_coordinate.min == ship_coordinate.max && ship_coordinate[1] == ship_coordinate.max
+          true
+        else
+          false
+      end
+  end
 
+  def check_numbers(ship_coordinate)
+    if ship_coordinate.min == ship_coordinate.max && ship_coordinate[1] == ship_coordinate.max
+       true
+     else
+       false
+     end
+   end
 end

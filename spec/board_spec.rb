@@ -66,7 +66,21 @@ RSpec.describe do
     expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
   end
 
-  it "checks that the numbers pulled are the same" do
+
+  it "checks that the letters pulled are the not the same" do
+    expect(@board.check_letters(["A", "A", "B"])).to be false
+  end
+
+  it "checks that the letters pulled are the same" do
+    expect(@board.check_letters(["A", "A", "A"])).to be true
+  end
+
+  it "checks if the numbers are the same " do
+    expect(@board.check_numbers(["1", "1", "1"])).to be true
+  end
+
+  it "checks if the numbers are the same " do
+    expect(@board.check_numbers(["1", "1", "2"])).to be false
 
   end
 end
