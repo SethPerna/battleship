@@ -33,4 +33,32 @@ class Board
         false
       end
   end
+
+  def coord_split(ship_coordinate)
+    letter_num = []
+    ship_coordinate.each do |split_coord| #[["A", "1"], ["A", "2"], ["A", "4"]]
+      letter_num << split_coord.split('')
+    end
+    pull_numbers(letter_num)
+    pull_letters(letter_num)
+    letter_num
+  end
+
+  def pull_numbers(ship_coordinate)
+      number = []
+      ship_coordinate.each do |num|
+      number << num.slice(1)
+      end
+    number
+  end
+
+
+  def pull_letters
+      letter = []
+      ship_coordinate.each do |letters|
+        letter << letters.slice(0)
+      end
+    letter
+  end
+
 end

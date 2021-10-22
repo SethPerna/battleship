@@ -54,4 +54,16 @@ RSpec.describe do
     expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
   end
 
+  it "takes the coordinates given and splits the array" do
+    expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
+  end
+
+  it "collects the numbers from the split arrays" do
+    expect(@board.pull_numbers([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["1", "2", "4"])
+  end
+
+  it "collects the letters from the split arrays" do
+    expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "B", "C"])
+  end
+
 end
