@@ -92,17 +92,30 @@ RSpec.describe do
   end
 
   it "validates placement" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to be false
-    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to be false
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to eq false
+    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to eq false
   end
 
   it "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to be false
-    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to be false
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to eq false
+    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to eq false
   end
 
   it "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to be true
+    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to eq true
+    expect(@board.valid_placement?(@cruiser, ["B1", "B2", "B3"])).to eq true
+    expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to eq true
+    expect(@board.valid_placement?(@cruiser, ["B2", "C3", "D4"])).to eq false
   end
+
+  it "checks more possible placements" do
+    expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to eq true
+    expect(@board.valid_placement?(@submarine, ["A2", "A4"])).to eq false
+    expect(@board.valid_placement?(@submarine, ["B1", "C1"])).to eq true
+    expect(@board.valid_placement?(@submarine, ["C2", "D2"])).to eq true
+  end
+
+
+
 
 end

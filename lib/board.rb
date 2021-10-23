@@ -27,16 +27,15 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinate)
+    return false if ship.length != ship_coordinate.count # guard statement
           letter = []
           number = []
           ship_coordinate.each do |coord|
-            letter << coord[0].ord
+            letter << coord[0]
             number << coord[1]
           end
 
-      if ship.length == ship_coordinate.count
-        true
-        if ship.length == 3
+
           if consecutive_letters(letter) == true && check_numbers(number) == true
             true
           elsif consecutive_numbers(number) == true && check_letters(letter) == true
@@ -44,109 +43,36 @@ class Board
           else
             false
           end
-        elsif ship.length == 2
-          if consecutive_letters_sub(letter) == true && check_numbers(number) == true
-            true
-          elsif consecutive_numbers_sub(number) == true && check_letters(letter) == true
-            true
-          else
-            false
-          end
-        end
-      else
-        false
-      end
+
   end
 
-  # def coord_split(ship_coordinate)
-  #   letter_num = []
-  #   ship_coordinate.each do |split_coord| #[["A", "1"], ["A", "2"], ["A", "4"]]
-  #     letter_num << split_coord.split('')
-  #   end
-  #   pull_numbers(letter_num)
-  #   pull_letters(letter_num)
-  #   letter_num
-  # end
-  #
-  # def pull_numbers(letter_num)
-  #     number = []
-  #     letter_num.each do |num|
-  #       number << num.slice(1)
-  #     end
-  #     check_numbers(number)
-  #     consecutive_numbers(number)
-  #   number
-  # end
-  #
-  # def pull_letters(letter_num)
-  #     letter = []
-  #     letter_num.each do |letters|
-  #       letter << letters.slice(0)
-  #     end
-  #     check_letters(letter)
-  #     consecutive_letters(letter)
-  #   letter
-  # end
-
   def check_letters(letter)
-       if letter.min == letter.max && letter[1] == letter.max
-          true
-        else
-          false
-      end
+     letter.uniq.count == 1
   end
 
   def check_numbers(number)
-    if number.min == number.max && number[1] == number.max
-       true
-     else
-       false
-     end
+    number.uniq.count == 1
    end
 
    def consecutive_numbers(number)
-     if number.min != number.max
-       true
           if number.min.ord + 1 == number[1].ord && number.max.ord - 1 == number[1].ord
             true
+          elsif number.count == 2
+            (number.min.ord + 1) == number.max.ord 
           else
             false
           end
-    elsif number.min == number.max
-      false
+
     end
-  end
 
     def consecutive_letters(letter)
-      if letter.min != letter.max
-        true
-           if letter.min.ord + 1 == letter[1].ord && (letter.max.ord - 1) == letter[1].ord
+           if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
              true
+          elsif letter.count == 2
+            (letter.min.ord + 1) == letter.max.ord
            else
              false
            end
-     elsif letter.min == letter.max
-       false
-     end
-   end
 
-   def consecutive_letters_sub(letter)
-     if letter.min != letter.max
-       true
-       if letter.min.ord + 1 == letter[1].ord
-       end
-    else
-      false
-    end
-  end
-  def consecutive_numbers_sub(number)
-    if number.min != number.max
-      true
-      if number.min.ord + 1 == number[1].ord
-        true
-      end
-    else false
-  end
  end
-
 end
