@@ -27,38 +27,52 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinate)
-      if ship.length == ship_coordinate.count
-        true
-      else
-        false
-      end
+    return false if ship.length != ship_coordinate.count # guard statement
+          letter = []
+          number = []
+          ship_coordinate.each do |coord|
+            letter << coord[0]
+            number << coord[1]
+          end
+
+
+          if consecutive_letters(letter) == true && check_numbers(number) == true
+            true
+          elsif consecutive_numbers(number) == true && check_letters(letter) == true
+            true
+          else
+            false
+          end
+
   end
 
-  def coord_split(ship_coordinate)
-    letter_num = []
-    ship_coordinate.each do |split_coord| #[["A", "1"], ["A", "2"], ["A", "4"]]
-      letter_num << split_coord.split('')
+  def check_letters(letter)
+     letter.uniq.count == 1
+  end
+
+  def check_numbers(number)
+    number.uniq.count == 1
+   end
+
+   def consecutive_numbers(number)
+          if number.min.ord + 1 == number[1].ord && number.max.ord - 1 == number[1].ord
+            true
+          elsif number.count == 2
+            (number.min.ord + 1) == number.max.ord 
+          else
+            false
+          end
+
     end
-    pull_numbers(letter_num)
-    pull_letters(letter_num)
-    letter_num
-  end
 
-  def pull_numbers(ship_coordinate)
-      number = []
-      ship_coordinate.each do |num|
-      number << num.slice(1)
-      end
-    number
-  end
+    def consecutive_letters(letter)
+           if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
+             true
+          elsif letter.count == 2
+            (letter.min.ord + 1) == letter.max.ord
+           else
+             false
+           end
 
-  def pull_letters(ship_coordinate)
-      letter = []
-      ship_coordinate.each do |letters|
-        letter << letters.slice(0)
-      end
-    letter
-  end
-
-
+ end
 end
