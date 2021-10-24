@@ -177,4 +177,18 @@ RSpec.describe do
     "C . . . . \n " +
     "D . . . . \n ")
     end
+
+    it "renders sunken ships" do
+      @cell_1.fire_upon
+      @cell_3.fire_upon
+      @cell_4 = @board.cells["A4"]
+      @cell_4.fire_upon
+      @cell_2.fire_upon
+
+    expect(@board.render).to eq(" 1 2 3 4 \n " +
+    "A X X X M \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+    end
 end
