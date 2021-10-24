@@ -27,6 +27,7 @@ class Board
   end
 
   def valid_placement?(ship, ship_coordinate)
+
     return false if ship.length != ship_coordinate.count # guard statement
           letter = []
           number = []
@@ -34,7 +35,6 @@ class Board
             letter << coord[0]
             number << coord[1]
           end
-
 
           if consecutive_letters(letter) == true && check_numbers(number) == true
             true
@@ -58,7 +58,7 @@ class Board
           if number.min.ord + 1 == number[1].ord && number.max.ord - 1 == number[1].ord
             true
           elsif number.count == 2
-            (number.min.ord + 1) == number.max.ord 
+            (number.min.ord + 1) == number.max.ord
           else
             false
           end
@@ -74,5 +74,16 @@ class Board
              false
            end
 
- end
+    end
+
+    def place(ship, ship_coordinate)
+      ship_coordinate.each do |coord|
+        @cells[coord].place_ship(ship)
+        # if valid_placement?(ship, ship_coordinate) == true && @cells[coord].empty? == true
+        #   true
+        # else
+        #   false
+        # end
+      end
+  end
 end

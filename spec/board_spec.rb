@@ -114,8 +114,27 @@ RSpec.describe do
     expect(@board.valid_placement?(@submarine, ["B1", "C1"])).to eq true
     expect(@board.valid_placement?(@submarine, ["C2", "D2"])).to eq true
   end
+    before :each do
+    @board.place(@cruiser, ["A1", "A2", "A3"])
+    @cell_1 = @board.cells["A1"]
+    @cell_2 = @board.cells["A2"]
+    @cell_3 = @board.cells["A3"]
+    @board.valid_placement?(@cruiser, ["A1", "A2", "A3"])
+  end
 
+    it "checks that method place is placing ship in a cell" do
+      expect(@cell_1.empty?).to eq false
+      expect(@cell_2.empty?).to eq false
+      expect(@cell_3.empty?).to eq false
+    end
 
+    it "checks if a ship occupies multiple cells" do
+      expect(@cell_1.ship == @cell_2.ship).to eq true
+    end
+
+    it "checks if we can put a ship where one was already placed" do
+      expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq false
+    end
 
 
 end
