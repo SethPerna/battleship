@@ -155,7 +155,7 @@ RSpec.describe do
           "D3" => Cell.new("D3"),
           'D4' => Cell.new("D4")
         }
-      expect(@board.render).to eq(" 1 2 3 4 \n " +
+      expect(@board.render).to eq("   1 2 3 4 \n " +
       "A . . . . \n " +
       "B . . . . \n " +
       "C . . . . \n " +
@@ -163,12 +163,12 @@ RSpec.describe do
       end
 
     it "renders the board for the player (true)" do
-    expect(@board.render(true)).to eq(" 1 2 3 4 \n " +
+    expect(@board.render(true)).to eq("   1 2 3 4 \n " +
       "A S S S . \n " +
       "B . . . . \n " +
       "C . . . . \n " +
       "D . . . . \n ")
     end
 
-    
+
 end
