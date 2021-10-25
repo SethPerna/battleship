@@ -132,10 +132,18 @@ RSpec.describe do
       expect(@cell_1.ship == @cell_2.ship).to eq true
     end
 
-    xit "checks if we can put a ship where one was already placed" do
+    it "checks if we can put a ship where one was already placed" do
       expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq false
-    end
+      expect(@board.valid_placement?(@submarine, ["A2", "B2"])).to eq false
+      expect(@board.valid_placement?(@submarine, ["A3", "B3"])).to eq false
 
+    end
+    it "checks if valid placements after shgip placed " do
+      expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to eq true
+      expect(@board.valid_placement?(@submarine, ["A4", "B4"])).to eq true
+      expect(@board.valid_placement?(@submarine, ["C1", "C2"])).to eq true
+
+    end
     it "renders the board " do
 
       @cells = {
@@ -156,10 +164,8 @@ RSpec.describe do
           "D3" => Cell.new("D3"),
           'D4' => Cell.new("D4")
         }
+
       expect(@board.render).to eq("   1 2 3 4 \n " +
-
-      expect(@board.render).to eq(" 1 2 3 4 \n " +
-
       "A . . . . \n " +
       "B . . . . \n " +
       "C . . . . \n " +
@@ -180,7 +186,7 @@ RSpec.describe do
       @cell_4 = @board.cells["A4"]
       @cell_4.fire_upon
 
-    expect(@board.render(true)).to eq(" 1 2 3 4 \n " +
+    expect(@board.render(true)).to eq("   1 2 3 4 \n " +
       "A H S H M \n " +
       "B . . . . \n " +
       "C . . . . \n " +
@@ -193,7 +199,7 @@ RSpec.describe do
       @cell_4 = @board.cells["A4"]
       @cell_4.fire_upon
 
-    expect(@board.render).to eq(" 1 2 3 4 \n " +
+    expect(@board.render).to eq("   1 2 3 4 \n " +
     "A H . H M \n " +
     "B . . . . \n " +
     "C . . . . \n " +
@@ -207,7 +213,7 @@ RSpec.describe do
       @cell_4.fire_upon
       @cell_2.fire_upon
 
-    expect(@board.render).to eq(" 1 2 3 4 \n " +
+    expect(@board.render).to eq("   1 2 3 4 \n " +
     "A X X X M \n " +
     "B . . . . \n " +
     "C . . . . \n " +

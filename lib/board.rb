@@ -1,5 +1,6 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells,
+              :cells_taken
 
   def initialize
     @cells = {
@@ -20,10 +21,8 @@ class Board
         "D3" => Cell.new("D3"),
         'D4' => Cell.new("D4")
     }
-
-  end
-
-
+    @cells_taken = []
+end
 
   def validate_coordinate?(coordinates)
     @cells.include?(coordinates)
@@ -31,28 +30,30 @@ class Board
 
 
   def valid_placement?(ship, ship_coordinate)
-    return false if ship_coordinate.any? {|coord|} # should check this to place ship if the coords match = false but not working??
+    # return false if @cells_taken.any? {|coord| @cells.empty?} 
     return false if ship.length != ship_coordinate.count # guard statement
           letter = []
           number = []
 
           ship_coordinate.each do |coord|
-            # letter << coord[0]
-            # number << coord[1]
-            # if @cells[coord].empty?
-              letter << coord[0]
-              number << coord[1]
-            # end
+
+            letter << coord[0]
+            number << coord[1]
+
           end
 
 
-          if consecutive_letters(letter) == true && check_numbers(number) == true
-            true
-          elsif consecutive_numbers(number) == true && check_letters(letter) == true
-            true
-          else
-            false
-          end
+
+            if consecutive_letters(letter) == true && check_numbers(number) == true
+              true
+            elsif consecutive_numbers(number) == true && check_letters(letter) == true
+              true
+            else
+              false
+            end
+          # else
+          #   false
+          # end
   end
 
   def check_letters(letter)
@@ -86,15 +87,46 @@ class Board
     end
 
     def place(ship, ship_coordinate)
-      if valid_placement?(ship, ship_coordinate) == true # should be going back to vaild placement
+      if valid_placement?(ship, ship_coordinate) == true
         ship_coordinate.each do |coord|
           @cells[coord].place_ship(ship)
+          @cells_taken << coord
+          end
+        end
+        @cells_taken
+      end
+
+      def ai_place_cruiser(ship, coordinates)
+        loop do
+          coordinates = []
+          3.times do
+            letter = rand(65..68).chr
+            number = rand(1..4)
+            coord = "#{letter}#{number}"
+            coordinates << coord
+          end
+          if valid_placement?(ship, coordinates) == true
+            place(ship, coordinates)
+            break
           end
         end
       end
 
-
-
+      def ai_place_submarine(ship, coordinates)
+        loop do
+          coordinates = []
+          2.times do
+            letter = rand(65..68).chr
+            number = rand(1..4)
+            coord = "#{letter}#{number}"
+            coordinates << coord
+          end
+          if valid_placement?(ship, coordinates) == true
+            place(ship, coordinates)
+            break
+          end
+        end
+      end
 
 
 
@@ -108,7 +140,7 @@ class Board
         "B #{@cells['B1'].render(true)} #{@cells["B2"].render(true)} #{@cells["B3"].render(true)} #{@cells["B4"].render(true)} \n " +
         "C #{@cells["C1"].render(true)} #{@cells["C2"].render(true)} #{@cells["C3"].render(true)} #{@cells["C4"].render(true)} \n " +
         "D #{@cells["D1"].render(true)} #{@cells["D2"].render(true)} #{@cells["D3"].render(true)} #{@cells["D4"].render(true)} \n "
-    else
+      else
       "   1 2 3 4 \n " +
       "A #{@cells["A1"].render} #{@cells["A2"].render} #{@cells["A3"].render} #{@cells["A4"].render} \n " +
       "B #{@cells['B1'].render} #{@cells["B2"].render} #{@cells["B3"].render} #{@cells["B4"].render} \n " +
