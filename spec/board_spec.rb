@@ -174,8 +174,6 @@ RSpec.describe do
       "D . . . . \n ")
     end
 
-
-
     it "renders ship and hits and misses(true)" do
       @cell_1.fire_upon
       @cell_3.fire_upon
