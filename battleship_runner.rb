@@ -36,7 +36,8 @@ def start
       puts "
 Invalid response
 Enter p to play. Enter q to quit. "
-      response = gets.strip.downcase
+
+      response = gets.downcase.strip
     end
 
     return false if response == "q"

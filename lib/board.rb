@@ -42,6 +42,7 @@ class Board
             # if @cells[coord].empty?
               letter << coord[0]
               number << coord[1]
+            # end
           end
 
 
