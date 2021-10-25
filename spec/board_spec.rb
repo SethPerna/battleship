@@ -132,13 +132,13 @@ RSpec.describe do
       expect(@cell_1.ship == @cell_2.ship).to eq true
     end
 
-    it "checks if we can put a ship where one was already placed" do
+    xit "checks if we can put a ship where one was already placed" do
       expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq false
       expect(@board.valid_placement?(@submarine, ["A2", "B2"])).to eq false
       expect(@board.valid_placement?(@submarine, ["A3", "B3"])).to eq false
 
     end
-    it "checks if valid placements after shgip placed " do
+    it "checks if valid placements after ship placed " do
       expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to eq true
       expect(@board.valid_placement?(@submarine, ["A4", "B4"])).to eq true
       expect(@board.valid_placement?(@submarine, ["C1", "C2"])).to eq true
@@ -218,6 +218,11 @@ RSpec.describe do
     "B . . . . \n " +
     "C . . . . \n " +
     "D . . . . \n ")
+    end
+
+    it "tests for #ai_fire_upon" do
+      @board.ai_fire
+      expect(@board.cells.keys.length).to eq 16
     end
 
 end

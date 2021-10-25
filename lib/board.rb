@@ -30,7 +30,7 @@ end
 
 
   def valid_placement?(ship, ship_coordinate)
-    # return false if @cells_taken.any? {|coord| @cells.empty?} 
+    # return false if @cells_taken.any? {|coord| @cells.empty?}
     return false if ship.length != ship_coordinate.count # guard statement
           letter = []
           number = []
@@ -128,6 +128,29 @@ end
         end
       end
 
+
+        def ai_fire
+          fire_letter = rand(65..68).chr
+          fire_number = rand(1..4)
+          fire_coord = "#{fire_letter}#{fire_number}"
+
+          until @cells[fire_coord].fired_upon? == false
+            fire_letter = rand(65..68).chr
+            fire_number = rand(1..4)
+            fire_coord = "#{fire_letter}#{fire_number}"
+          end
+
+          if @cells[fire_coord].fired_upon? == false
+            @cells[fire_coord].fire_upon
+          end
+          if @cells[fire_coord].render == "M"
+            puts "My shot on #{fire_coord} was a miss"
+          elsif @cells[fire_coord].render == "H"
+            puts "My shot on #{fire_coord} was a hit"
+          elsif @cells[fire_coord].render == "X"
+            puts "My shot on #{fire_coord} was a hit and I sunk your #{@cells[fire_coord].ship.name}"
+          end
+        end
 
 
 
