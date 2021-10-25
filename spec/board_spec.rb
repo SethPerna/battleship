@@ -170,5 +170,5 @@ RSpec.describe do
       "D . . . . \n ")
     end
 
-    
+
 end
