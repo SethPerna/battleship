@@ -137,6 +137,7 @@ RSpec.describe do
     end
 
     it "renders the board " do
+
       @cells = {
           "A1" => Cell.new("A1"),
           "A2" => Cell.new("A2"),
@@ -155,7 +156,10 @@ RSpec.describe do
           "D3" => Cell.new("D3"),
           'D4' => Cell.new("D4")
         }
+      expect(@board.render).to eq("   1 2 3 4 \n " +
+
       expect(@board.render).to eq(" 1 2 3 4 \n " +
+
       "A . . . . \n " +
       "B . . . . \n " +
       "C . . . . \n " +
@@ -163,12 +167,51 @@ RSpec.describe do
       end
 
     it "renders the board for the player (true)" do
-    expect(@board.render(true)).to eq(" 1 2 3 4 \n " +
+    expect(@board.render(true)).to eq("   1 2 3 4 \n " +
       "A S S S . \n " +
       "B . . . . \n " +
       "C . . . . \n " +
       "D . . . . \n ")
     end
 
+    it "renders ship and hits and misses(true)" do
+      @cell_1.fire_upon
+      @cell_3.fire_upon
+      @cell_4 = @board.cells["A4"]
+      @cell_4.fire_upon
+
+    expect(@board.render(true)).to eq(" 1 2 3 4 \n " +
+      "A H S H M \n " +
+      "B . . . . \n " +
+      "C . . . . \n " +
+      "D . . . . \n ")
+    end
+
+    it "renders hits and misses" do
+      @cell_1.fire_upon
+      @cell_3.fire_upon
+      @cell_4 = @board.cells["A4"]
+      @cell_4.fire_upon
+
+    expect(@board.render).to eq(" 1 2 3 4 \n " +
+    "A H . H M \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+    end
+
+    it "renders sunken ships" do
+      @cell_1.fire_upon
+      @cell_3.fire_upon
+      @cell_4 = @board.cells["A4"]
+      @cell_4.fire_upon
+      @cell_2.fire_upon
+
+    expect(@board.render).to eq(" 1 2 3 4 \n " +
+    "A X X X M \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+    end
 
 end
