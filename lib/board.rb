@@ -44,9 +44,21 @@ end
       true
     elsif consecutive_numbers(number) == true && check_letters(letter) == true
       true
+    # elsif descending_numbers(number)
+    #   false
+    # elsif descending_letter(letter)
+    #   false
     else
       false
     end
+  end
+
+  def descending_numbers(number)
+    (number.first) + (number.length - 1) == number.last
+  end
+
+  def descending_letter(letter)
+    (letter.first.ord) + (letter.length - 1) == letter.last.ord
   end
 
   def occupied(ship_coordinate)

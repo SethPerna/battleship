@@ -84,7 +84,19 @@ RSpec.describe do
     let(:cell_2) {board.cells["A2"]}
     let(:cell_3) {board.cells["A3"]}
 
+    it "#decending_numbers" do
+      expect(board.descending_numbers([1, 2, 3])).to be true
+      expect(board.descending_numbers([3, 2, 1])).to be false
+    end
+
+    it "#decending_letters" do
+      expect(board.descending_letter(["A", "B", "C"])).to be true
+      expect(board.descending_letter(["C", "B", "A"])).to be false
+    end
     it "validates placement" do
+      # expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be true
+      # expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to be false
+      # expect(board.valid_placement?(cruiser, ["C1", "B1", "A1"])).to be false
       expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
       expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq false
     end
