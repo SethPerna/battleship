@@ -30,7 +30,6 @@ RSpec.describe do
     expect(board.validate_coordinate?("A5")).to be false
     expect(board.validate_coordinate?("E1")).to be false
     expect(board.validate_coordinate?("A22")).to be false
-
   end
 
   before :each do
@@ -38,26 +37,12 @@ RSpec.describe do
     @cruiser = Ship.new("Cruiser", 3)
     @submarine = Ship.new("Submarine", 2)
   end
+
   it "exists" do
     expect(@board).to be_an_instance_of(Board)
     expect(@cruiser).to be_an_instance_of(Ship)
     expect(@submarine).to be_an_instance_of(Ship)
   end
-
-
-
-  # xit "takes the coordinates given and splits the array" do
-  #   expect(@board.coord_split(["A1", "A2", "A4"])).to eq([["A", "1"], ["A", "2"], ["A", "4"]])
-  # end
-  #
-  # xit "collects the numbers from the split arrays" do
-  #   expect(@board.pull_numbers([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["1", "2", "4"])
-  # end
-  #
-  # xit "collects the letters from the split arrays" do
-  #   expect(@board.pull_letters([["A", "1"], ["A", "2"], ["A", "4"]])).to eq(["A", "A", "A"])
-  # end
-
 
   it "checks that the letters pulled are the not the same" do
     expect(@board.check_letters(["A", "A", "B"])).to eq false
@@ -84,140 +69,169 @@ RSpec.describe do
   end
 
   it "checks if the letters are consecutive " do
-  expect(@board.consecutive_letters(["A", "B", "C"])).to eq true
+    expect(@board.consecutive_letters(["A", "B", "C"])).to eq true
   end
 
   it "checks if the letters are not consecutive " do
-  expect(@board.consecutive_letters(["A", "B", "A"])).to eq false
+    expect(@board.consecutive_letters(["A", "B", "A"])).to eq false
   end
 
-  it "validates placement" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2"])).to eq false
-    expect(@board.valid_placement?(@submarine, ["A2", "A3", "A4"])).to eq false
+  describe "valid placement" do
+    let(:board) {Board.new}
+    let(:cruiser) {Ship.new("cruiser", 3)}
+    let(:submarine) {Ship.new("submarine", 2)}
+    let(:cell_1) {board.cells["A1"]}
+    let(:cell_2) {board.cells["A2"]}
+    let(:cell_3) {board.cells["A3"]}
+
+    it "#decending_numbers" do
+      expect(board.descending_numbers([1, 2, 3])).to be true
+      expect(board.descending_numbers([3, 2, 1])).to be false
+    end
+
+    it "#decending_letters" do
+      expect(board.descending_letter(["A", "B", "C"])).to be true
+      expect(board.descending_letter(["C", "B", "A"])).to be false
+    end
+    it "validates placement" do
+      # expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to be true
+      # expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to be false
+      # expect(board.valid_placement?(cruiser, ["C1", "B1", "A1"])).to be false
+      expect(board.valid_placement?(cruiser, ["A1", "A2"])).to eq false
+      expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq false
+    end
+
+    it "validates more possible placements" do
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq false
+      expect(board.valid_placement?(submarine, ["A1", "C1"])).to eq false
+    end
+
+    it "validates more possible placements" do
+      expect(board.valid_placement?(cruiser, ["A1", "A2", "A3"])).to eq true
+      expect(board.valid_placement?(cruiser, ["B1", "B2", "B3"])).to eq true
+      expect(board.valid_placement?(cruiser, ["A1", "B1", "C1"])).to eq true
+      expect(board.valid_placement?(cruiser, ["B2", "C3", "D4"])).to eq false
+    end
+
+    it "checks more possible placements" do
+      expect(board.valid_placement?(submarine, ["A1", "A2"])).to eq true
+      expect(board.valid_placement?(submarine, ["A2", "A4"])).to eq false
+      expect(board.valid_placement?(submarine, ["B1", "C1"])).to eq true
+      expect(board.valid_placement?(submarine, ["C2", "D2"])).to eq true
+    end
+
+    it "checks that method place is placing ship in a cell" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(cell_1.empty?).to eq false
+      expect(cell_2.empty?).to eq false
+      expect(cell_3.empty?).to eq false
+    end
+
+    it "checks if a ship occupies multiple cells" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(cell_1.ship == cell_2.ship).to eq true
+    end
+
+    it "checks if we can put a ship where one was already placed" do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(board.valid_placement?(submarine, ["A1", "B1"])).to eq false
+      expect(board.valid_placement?(submarine, ["A2", "B2"])).to eq false
+      expect(board.valid_placement?(submarine, ["A3", "B3"])).to eq false
+    end
+
+    it "checks if valid placements after ship placed " do
+      board.place(cruiser, ["A1", "A2", "A3"])
+      expect(board.valid_placement?(submarine, ["B1", "B2"])).to eq true
+      expect(board.valid_placement?(submarine, ["A4", "B4"])).to eq true
+      expect(board.valid_placement?(submarine, ["C1", "C2"])).to eq true
+    end
   end
 
-  it "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A4"])).to eq false
-    expect(@board.valid_placement?(@submarine, ["A1", "C1"])).to eq false
-  end
-
-  it "validates more possible placements" do
-    expect(@board.valid_placement?(@cruiser, ["A1", "A2", "A3"])).to eq true
-    expect(@board.valid_placement?(@cruiser, ["B1", "B2", "B3"])).to eq true
-    expect(@board.valid_placement?(@cruiser, ["A1", "B1", "C1"])).to eq true
-    expect(@board.valid_placement?(@cruiser, ["B2", "C3", "D4"])).to eq false
-  end
-
-  it "checks more possible placements" do
-    expect(@board.valid_placement?(@submarine, ["A1", "A2"])).to eq true
-    expect(@board.valid_placement?(@submarine, ["A2", "A4"])).to eq false
-    expect(@board.valid_placement?(@submarine, ["B1", "C1"])).to eq true
-    expect(@board.valid_placement?(@submarine, ["C2", "D2"])).to eq true
-  end
-    before :each do
+  before :each do
     @board.place(@cruiser, ["A1", "A2", "A3"])
     @cell_1 = @board.cells["A1"]
     @cell_2 = @board.cells["A2"]
     @cell_3 = @board.cells["A3"]
-
   end
 
-    it "checks that method place is placing ship in a cell" do
-      expect(@cell_1.empty?).to eq false
-      expect(@cell_2.empty?).to eq false
-      expect(@cell_3.empty?).to eq false
-    end
+  it "renders the board " do
 
-    it "checks if a ship occupies multiple cells" do
-      expect(@cell_1.ship == @cell_2.ship).to eq true
-    end
+    @cells = {
+        "A1" => Cell.new("A1"),
+        "A2" => Cell.new("A2"),
+        "A3" => Cell.new("A3"),
+        'A4' => Cell.new("A4"),
+        "B1" => Cell.new("B1"),
+        "B2" => Cell.new("B2"),
+        "B3" => Cell.new("B3"),
+        'B4' => Cell.new("B4"),
+        "C1" => Cell.new("C1"),
+        "C2" => Cell.new("C2"),
+        "C3" => Cell.new("C3"),
+        'C4' => Cell.new("C4"),
+        "D1" => Cell.new("D1"),
+        "D2" => Cell.new("D2"),
+        "D3" => Cell.new("D3"),
+        'D4' => Cell.new("D4")
+      }
 
-    it "checks if we can put a ship where one was already placed" do
-      expect(@board.valid_placement?(@submarine, ["A1", "B1"])).to eq false
-      expect(@board.valid_placement?(@submarine, ["A2", "B2"])).to eq false
-      expect(@board.valid_placement?(@submarine, ["A3", "B3"])).to eq false
+    expect(@board.render).to eq("   1 2 3 4 \n " +
+    "A . . . . \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+  end
 
-    end
-    it "checks if valid placements after shgip placed " do
-      expect(@board.valid_placement?(@submarine, ["B1", "B2"])).to eq true
-      expect(@board.valid_placement?(@submarine, ["A4", "B4"])).to eq true
-      expect(@board.valid_placement?(@submarine, ["C1", "C2"])).to eq true
-
-    end
-    it "renders the board " do
-
-      @cells = {
-          "A1" => Cell.new("A1"),
-          "A2" => Cell.new("A2"),
-          "A3" => Cell.new("A3"),
-          'A4' => Cell.new("A4"),
-          "B1" => Cell.new("B1"),
-          "B2" => Cell.new("B2"),
-          "B3" => Cell.new("B3"),
-          'B4' => Cell.new("B4"),
-          "C1" => Cell.new("C1"),
-          "C2" => Cell.new("C2"),
-          "C3" => Cell.new("C3"),
-          'C4' => Cell.new("C4"),
-          "D1" => Cell.new("D1"),
-          "D2" => Cell.new("D2"),
-          "D3" => Cell.new("D3"),
-          'D4' => Cell.new("D4")
-        }
-
-      expect(@board.render).to eq("   1 2 3 4 \n " +
-      "A . . . . \n " +
-      "B . . . . \n " +
-      "C . . . . \n " +
-      "D . . . . \n ")
-      end
-
-    it "renders the board for the player (true)" do
+  it "renders the board for the player (true)" do
     expect(@board.render(true)).to eq("   1 2 3 4 \n " +
-      "A S S S . \n " +
-      "B . . . . \n " +
-      "C . . . . \n " +
-      "D . . . . \n ")
-    end
+    "A S S S . \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+  end
 
-    it "renders ship and hits and misses(true)" do
-      @cell_1.fire_upon
-      @cell_3.fire_upon
-      @cell_4 = @board.cells["A4"]
-      @cell_4.fire_upon
+  it "renders ship and hits and misses(true)" do
+    @cell_1.fire_upon
+    @cell_3.fire_upon
+    @cell_4 = @board.cells["A4"]
+    @cell_4.fire_upon
 
     expect(@board.render(true)).to eq("   1 2 3 4 \n " +
-      "A H S H M \n " +
-      "B . . . . \n " +
-      "C . . . . \n " +
-      "D . . . . \n ")
-    end
+    "A H S H M \n " +
+    "B . . . . \n " +
+    "C . . . . \n " +
+    "D . . . . \n ")
+  end
 
-    it "renders hits and misses" do
-      @cell_1.fire_upon
-      @cell_3.fire_upon
-      @cell_4 = @board.cells["A4"]
-      @cell_4.fire_upon
+  it "renders hits and misses" do
+    @cell_1.fire_upon
+    @cell_3.fire_upon
+    @cell_4 = @board.cells["A4"]
+    @cell_4.fire_upon
 
     expect(@board.render).to eq("   1 2 3 4 \n " +
     "A H . H M \n " +
     "B . . . . \n " +
     "C . . . . \n " +
     "D . . . . \n ")
-    end
+  end
 
-    it "renders sunken ships" do
-      @cell_1.fire_upon
-      @cell_3.fire_upon
-      @cell_4 = @board.cells["A4"]
-      @cell_4.fire_upon
-      @cell_2.fire_upon
+  it "renders sunken ships" do
+    @cell_1.fire_upon
+    @cell_3.fire_upon
+    @cell_4 = @board.cells["A4"]
+    @cell_4.fire_upon
+    @cell_2.fire_upon
 
     expect(@board.render).to eq("   1 2 3 4 \n " +
     "A X X X M \n " +
     "B . . . . \n " +
     "C . . . . \n " +
     "D . . . . \n ")
-    end
+  end
 
+  it "tests for #ai_fire_upon" do
+    @board.ai_fire
+    expect(@board.cells.keys.length).to eq 16
+  end
 end

@@ -30,30 +30,41 @@ end
 
 
   def valid_placement?(ship, ship_coordinate)
-    # return false if @cells_taken.any? {|coord| @cells.empty?} 
-    return false if ship.length != ship_coordinate.count # guard statement
-          letter = []
-          number = []
+    return false if ship.length != ship_coordinate.count
+    return false if occupied(ship_coordinate) == true # guard statement
+    letter = []
+    number = []
 
-          ship_coordinate.each do |coord|
+    ship_coordinate.each do |coord|
+      letter << coord[0]
+      number << coord[1]
+    end
 
-            letter << coord[0]
-            number << coord[1]
+    if consecutive_letters(letter) == true && check_numbers(number) == true
+      true
+    elsif consecutive_numbers(number) == true && check_letters(letter) == true
+      true
+    # elsif descending_numbers(number)
+    #   false
+    # elsif descending_letter(letter)
+    #   false
+    else
+      false
+    end
+  end
 
-          end
+  def descending_numbers(number)
+    (number.first) + (number.length - 1) == number.last
+  end
 
+  def descending_letter(letter)
+    (letter.first.ord) + (letter.length - 1) == letter.last.ord
+  end
 
-
-            if consecutive_letters(letter) == true && check_numbers(number) == true
-              true
-            elsif consecutive_numbers(number) == true && check_letters(letter) == true
-              true
-            else
-              false
-            end
-          # else
-          #   false
-          # end
+  def occupied(ship_coordinate)
+    ship_coordinate.any? do |coord|
+      @cells[coord].empty? == false
+    end
   end
 
   def check_letters(letter)
@@ -64,26 +75,24 @@ end
     number.uniq.count == 1
    end
 
-   def consecutive_numbers(number)
-          if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
-            true
-          elsif number.count == 2
-            (number.min.ord + 1) == (number.max.ord)
-          else
-            false
-          end
-
+ def consecutive_numbers(number)
+    if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
+      true
+    elsif number.count == 2
+      (number.min.ord + 1) == (number.max.ord)
+    else
+      false
     end
+  end
 
-    def consecutive_letters(letter)
-           if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
-             true
-          elsif letter.count == 2
-            letter.min.ord + 1 == letter.max.ord
-           else
-             false
-           end
-
+  def consecutive_letters(letter)
+     if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
+       true
+     elsif letter.count == 2
+      letter.min.ord + 1 == letter.max.ord
+     else
+       false
+     end
     end
 
     def place(ship, ship_coordinate)
@@ -128,6 +137,29 @@ end
         end
       end
 
+
+        def ai_fire
+          fire_letter = rand(65..68).chr
+          fire_number = rand(1..4)
+          fire_coord = "#{fire_letter}#{fire_number}"
+
+          until @cells[fire_coord].fired_upon? == false
+            fire_letter = rand(65..68).chr
+            fire_number = rand(1..4)
+            fire_coord = "#{fire_letter}#{fire_number}"
+          end
+
+          if @cells[fire_coord].fired_upon? == false
+            @cells[fire_coord].fire_upon
+          end
+          if @cells[fire_coord].render == "M"
+            puts "My shot on #{fire_coord} was a miss"
+          elsif @cells[fire_coord].render == "H"
+            puts "My shot on #{fire_coord} was a hit"
+          elsif @cells[fire_coord].render == "X"
+            puts "My shot on #{fire_coord} was a hit and I sunk your #{@cells[fire_coord].ship.name}"
+          end
+        end
 
 
 
