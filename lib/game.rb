@@ -146,18 +146,24 @@ class Game
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
     end
+    restart
+  end
+
+
+  def restart
+    puts '                           Would you like to play again?'
+    puts '                              Type Yes to play again,     '
+    puts '                              Type M for main menu     '
+    puts '                                       or           '
+    puts '                              anything else to quit    '
+
+    play_again = gets.chomp.strip.capitalize
+    if play_again == "Yes"
+      set_up
+    elsif play_again == "M"
+      greeting
+    else
+      false
+    end
   end
 end
-
-
-# puts '                           Would you like to play again?'
-# puts '                              Type Yes to play again    '
-# puts '                                       or           '
-# puts '                              anything else to quit    '
-#
-# play_again = gets.chomp.strip.capitalize
-# if play_again == "Yes"
-#   start
-# else
-# greeting
-# end
