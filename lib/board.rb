@@ -52,14 +52,6 @@ end
     end
   end
 
-  def descending_numbers(number)
-    (number.first) + (number.length - 1) == number.last
-  end
-
-  def descending_letter(letter)
-    (letter.first.ord) + (letter.length - 1) == letter.last.ord
-  end
-
   def occupied(ship_coordinate)
     ship_coordinate.any? do |coord|
       @cells[coord].empty? == false
@@ -75,20 +67,20 @@ end
    end
 
  def consecutive_numbers(number)
-    if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
+    if (number.first.ord + 1) == (number[1].ord) && (number.last.ord - 1) == (number[1].ord)
       true
     elsif number.count == 2
-      (number.min.ord + 1) == (number.max.ord)
+      (number.first.ord + 1) == (number.last.ord)
     else
       false
     end
   end
 
   def consecutive_letters(letter)
-     if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
+     if letter.first.ord + 1 == letter[1].ord && letter.last.ord - 1 == letter[1].ord
        true
      elsif letter.count == 2
-      letter.min.ord + 1 == letter.max.ord
+      letter.first.ord + 1 == letter.last.ord
      else
        false
      end
