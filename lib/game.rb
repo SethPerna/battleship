@@ -88,7 +88,7 @@ class Game
       end
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true) # for testing purposes
+      puts                                 @comp_board.render# for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
