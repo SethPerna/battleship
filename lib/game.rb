@@ -30,12 +30,12 @@ class Game
     end
 
     if response == "p"
-      start
+      set_up
     end
     return false if response == "q"
   end
 
-  def start
+  def set_up
 
     @comp_board.ai_place_cruiser(@comp_cruiser, [])
     @comp_board.ai_place_submarine(@comp_submarine, [])
@@ -64,10 +64,11 @@ class Game
       player_sub_coords = gets.chomp.split(" ")
     end
     @player_board.place(@player_submarine, player_sub_coords)
+    start
+  end
 
-
-
-    until @players_sunken_ships == 2 || @comp_sunken_ships == 2 do
+  def start
+    loop do
 
       @players_sunken_ships = 0
       @comp_sunken_ships = 0
@@ -87,11 +88,11 @@ class Game
       end
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render #(true) # for testing purposes
+      puts                                 @comp_board.render # for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
-      # require "pry"; binding.pry
+
       player_response = gets.chomp.capitalize
 
       until @comp_board.validate_coordinate?(player_response) == true do   #&& @comp_board.cells[player_response].fired_up? == true do
@@ -123,6 +124,9 @@ class Game
       if @comp_submarine.health == 0
         puts "                          Computer Submarine was sunk"
       end
+      if @players_sunken_ships == 2 || @comp_sunken_ships == 2
+        break
+      end
     end
   end
 
@@ -130,10 +134,17 @@ class Game
     if @players_sunken_ships == 2
       puts "                          ========= GAME OVER ========= "
       puts "                                      I won!"
-
+      puts "                      =========== COMPUTER BOARD =========== "
+      puts                                 @comp_board.render(true) # for testing purposes
+      puts "                      ============ PLAYER BOARD ============ "
+      puts                                 @player_board.render(true)
     elsif @comp_sunken_ships == 2
       puts "                          ========= GAME OVER ========= "
       puts "                                     You won!"
+      puts "                      =========== COMPUTER BOARD =========== "
+      puts                                 @comp_board.render(true) # for testing purposes
+      puts "                      ============ PLAYER BOARD ============ "
+      puts                                 @player_board.render(true)
     end
   end
 end
