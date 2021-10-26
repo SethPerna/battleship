@@ -2,11 +2,11 @@ require './lib/board'
 require './lib/cell'
 require './lib/ship'
 
+
 class Game
 
   def initialize
-    @player_board = Board.new
-    @comp_board = Board.new
+    clear_boards
     @player_cruiser = Ship.new("Cruiser", 3)
     @player_submarine = Ship.new("Submarine", 2)
     @comp_cruiser = Ship.new("Cruiser", 3)
@@ -31,8 +31,9 @@ class Game
 
     if response == "p"
       set_up
+    elsif response == "q"
+      exit(true)
     end
-    return false if response == "q"
   end
 
   def set_up
@@ -54,7 +55,6 @@ class Game
       player_cruiser_coords = gets.chomp.split(" ")
     end
     @player_board.place(@player_cruiser, player_cruiser_coords)
-
 
     puts "                    Enter the squares for the submarine (2 coordinates)"
     player_sub_coords = gets.chomp.split(" ")
@@ -88,7 +88,7 @@ class Game
       end
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render # for testing purposes
+      puts                                 @comp_board.render(true) # for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
@@ -149,21 +149,23 @@ class Game
     restart
   end
 
+  def clear_boards
+    @player_board = Board.new
+    @comp_board = Board.new
+  end
 
   def restart
     puts '                           Would you like to play again?'
-    puts '                              Type Yes to play again,     '
-    puts '                              Type M for main menu     '
+    puts '                              Type Y to play again,     '
     puts '                                       or           '
-    puts '                              anything else to quit    '
+    puts '                              press Q to quit    '
 
-    play_again = gets.chomp.strip.capitalize
-    if play_again == "Yes"
-      set_up
-    elsif play_again == "M"
-      greeting
-    else
-      false
+    play_again = gets.chomp.strip.upcase
+    if play_again == "Y"
+      new_game = Game.new
+      new_game
+    elsif play_again == "Q"
+      exit(true)
     end
   end
 end
