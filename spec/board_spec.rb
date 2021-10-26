@@ -175,19 +175,19 @@ RSpec.describe do
         'D4' => Cell.new("D4")
       }
 
-    expect(@board.render).to eq("   1 2 3 4 \n " +
-    "A . . . . \n " +
-    "B . . . . \n " +
-    "C . . . . \n " +
-    "D . . . . \n ")
+    expect(@board.render).to eq("                                      1 2 3 4 \n " +
+    "                                   A . . . . \n " +
+    "                                   B . . . . \n " +
+    "                                   C . . . . \n " +
+    "                                   D . . . . \n ")
   end
 
   it "renders the board for the player (true)" do
-    expect(@board.render(true)).to eq("   1 2 3 4 \n " +
-    "A S S S . \n " +
-    "B . . . . \n " +
-    "C . . . . \n " +
-    "D . . . . \n ")
+    expect(@board.render(true)).to eq("                                      1 2 3 4 \n " +
+    "                                   A S S S . \n " +
+    "                                   B . . . . \n " +
+    "                                   C . . . . \n " +
+    "                                   D . . . . \n ")
   end
 
   it "renders ship and hits and misses(true)" do
@@ -196,11 +196,11 @@ RSpec.describe do
     @cell_4 = @board.cells["A4"]
     @cell_4.fire_upon
 
-    expect(@board.render(true)).to eq("   1 2 3 4 \n " +
-    "A H S H M \n " +
-    "B . . . . \n " +
-    "C . . . . \n " +
-    "D . . . . \n ")
+    expect(@board.render(true)).to eq("                                      1 2 3 4 \n " +
+    "                                   A H S H M \n " +
+    "                                   B . . . . \n " +
+    "                                   C . . . . \n " +
+    "                                   D . . . . \n ")
   end
 
   it "renders hits and misses" do
@@ -209,11 +209,11 @@ RSpec.describe do
     @cell_4 = @board.cells["A4"]
     @cell_4.fire_upon
 
-    expect(@board.render).to eq("   1 2 3 4 \n " +
-    "A H . H M \n " +
-    "B . . . . \n " +
-    "C . . . . \n " +
-    "D . . . . \n ")
+    expect(@board.render).to eq("                                      1 2 3 4 \n " +
+    "                                   A H . H M \n " +
+    "                                   B . . . . \n " +
+    "                                   C . . . . \n " +
+    "                                   D . . . . \n ")
   end
 
   it "renders sunken ships" do
@@ -223,11 +223,11 @@ RSpec.describe do
     @cell_4.fire_upon
     @cell_2.fire_upon
 
-    expect(@board.render).to eq("   1 2 3 4 \n " +
-    "A X X X M \n " +
-    "B . . . . \n " +
-    "C . . . . \n " +
-    "D . . . . \n ")
+    expect(@board.render).to eq("                                      1 2 3 4 \n " +
+    "                                   A X X X M \n " +
+    "                                   B . . . . \n " +
+    "                                   C . . . . \n " +
+    "                                   D . . . . \n ")
   end
 
   it "tests for #ai_fire_upon" do
