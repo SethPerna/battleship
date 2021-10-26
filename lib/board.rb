@@ -21,11 +21,10 @@ class Board
         "D3" => Cell.new("D3"),
         'D4' => Cell.new("D4")
     }
-    @cells_taken = []
 end
 
   def validate_coordinate?(coordinates)
-    @cells.include?(coordinates)
+    @cells.include?(coordinates) && @cells[coordinates].fired_upon? == false
   end
 
 
@@ -99,10 +98,8 @@ end
       if valid_placement?(ship, ship_coordinate) == true
         ship_coordinate.each do |coord|
           @cells[coord].place_ship(ship)
-          @cells_taken << coord
           end
         end
-        @cells_taken
       end
 
       def ai_place_cruiser(ship, coordinates)
@@ -153,18 +150,14 @@ end
             @cells[fire_coord].fire_upon
           end
           if @cells[fire_coord].render == "M"
-            puts "                            My shot on #{fire_coord} was a miss"
+            puts "                            My shot on #{fire_coord} was a Miss"
           elsif @cells[fire_coord].render == "H"
-            puts "                            My shot on #{fire_coord} was a hit"
+            puts "                            My shot on #{fire_coord} was a Hit"
           # elsif @cells[fire_coord].render == "X"
             # puts "My shot on #{fire_coord} was a hit and I sunk your #{@cells[fire_coord].ship.name}"
           end
         end
-
 #spaces for test |                                   |
-
-
-    # require "pry"; binding.pry
     def render(user = false)
       if user == true
         "                                      1 2 3 4 \n " +

@@ -3,6 +3,7 @@ require './lib/cell'
 require './lib/ship'
 
 
+
 @player_board = Board.new
 @comp_board = Board.new
 @player_cruiser = Ship.new("Cruiser", 3)
@@ -15,8 +16,8 @@ require './lib/ship'
 
 
 def greeting
-    puts "                            Welcome to BATTLESHIP"
-    puts "                       Enter p to play. Enter q to quit."
+    puts "                             Welcome to BATTLESHIP"
+    puts "                        Enter p to play. Enter q to quit."
       response = gets.strip.downcase
 
     until response == "p" || response == "q"
@@ -86,7 +87,7 @@ def start
       end
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true)
+      puts                                 @comp_board.render(true) # for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
@@ -122,40 +123,39 @@ def start
       if @comp_submarine.health == 0
         puts "                          Computer Submarine was sunk"
       end
+end
 
-
+def end_game
       if @players_sunken_ships == 2
         puts "                          ========= GAME OVER ========= "
         puts "                                      I won!"
-        puts '                           Would you like to play again?'
-        puts '                              Type Yes to play again    '
-        puts '                                       or           '
-        puts '                              anything else to quit    '
-        play_again = gets.chomp.capitalize
-        if play_again == "Yes"
-          return start
-        else
-          greeting
-        end
+
       elsif @comp_sunken_ships == 2
         puts "                          ========= GAME OVER ========= "
         puts "                                     You won!"
-        puts '                           Would you like to play again?'
-        puts '                              Type Yes to play again    '
-        puts '                                       or           '
-        puts '                              anything else to quit    '
-        play_again = gets.chomp.capitalize
-        if play_again == "Yes"
-          return start
-        else
-          greeting
-        end
+
+      end
+
+      # puts '                           Would you like to play again?'
+      # puts '                              Type Yes to play again    '
+      # puts '                                       or           '
+      # puts '                              anything else to quit    '
+      #
+      # play_again = gets.chomp.strip.capitalize
+      # if play_again == "Yes"
+      #   greeting
+      # else
+      # end
     end
-  end
 end
 
 
+
+
 greeting
+end_game
+
+
 
 
 
