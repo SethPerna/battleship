@@ -30,30 +30,29 @@ end
 
 
   def valid_placement?(ship, ship_coordinate)
-    # return false if @cells_taken.any? {|coord| @cells.empty?}
-    return false if ship.length != ship_coordinate.count # guard statement
-          letter = []
-          number = []
+    return false if ship.length != ship_coordinate.count
+    return false if occupied(ship_coordinate) == true # guard statement
+    letter = []
+    number = []
 
-          ship_coordinate.each do |coord|
+    ship_coordinate.each do |coord|
+      letter << coord[0]
+      number << coord[1]
+    end
 
-            letter << coord[0]
-            number << coord[1]
+    if consecutive_letters(letter) == true && check_numbers(number) == true
+      true
+    elsif consecutive_numbers(number) == true && check_letters(letter) == true
+      true
+    else
+      false
+    end
+  end
 
-          end
-
-
-
-            if consecutive_letters(letter) == true && check_numbers(number) == true
-              true
-            elsif consecutive_numbers(number) == true && check_letters(letter) == true
-              true
-            else
-              false
-            end
-          # else
-          #   false
-          # end
+  def occupied(ship_coordinate)
+    ship_coordinate.any? do |coord|
+      @cells[coord].empty? == false
+    end
   end
 
   def check_letters(letter)
@@ -64,26 +63,24 @@ end
     number.uniq.count == 1
    end
 
-   def consecutive_numbers(number)
-          if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
-            true
-          elsif number.count == 2
-            (number.min.ord + 1) == (number.max.ord)
-          else
-            false
-          end
-
+ def consecutive_numbers(number)
+    if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
+      true
+    elsif number.count == 2
+      (number.min.ord + 1) == (number.max.ord)
+    else
+      false
     end
+  end
 
-    def consecutive_letters(letter)
-           if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
-             true
-          elsif letter.count == 2
-            letter.min.ord + 1 == letter.max.ord
-           else
-             false
-           end
-
+  def consecutive_letters(letter)
+     if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
+       true
+     elsif letter.count == 2
+      letter.min.ord + 1 == letter.max.ord
+     else
+       false
+     end
     end
 
     def place(ship, ship_coordinate)
