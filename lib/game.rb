@@ -46,7 +46,7 @@ class Game
               The Cruiser is three units long and the Submarine is two units long."
     puts @player_board.render
 
-    puts "                     Enter the squares for the cruiser (3 ships)"
+    puts "                     Enter the squares for the cruiser (3 coordinates)"
     player_cruiser_coords = gets.chomp.split(" ")
 
     until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords) == true do
@@ -56,7 +56,7 @@ class Game
     @player_board.place(@player_cruiser, player_cruiser_coords)
 
 
-    puts "                    Enter the squares for the submarine (2 ships)"
+    puts "                    Enter the squares for the submarine (2 coordinates)"
     player_sub_coords = gets.chomp.split(" ")
 
     until @player_board.valid_placement?(@player_submarine, player_sub_coords) == true do
