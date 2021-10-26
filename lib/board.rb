@@ -21,11 +21,10 @@ class Board
         "D3" => Cell.new("D3"),
         'D4' => Cell.new("D4")
     }
-    @cells_taken = []
 end
 
   def validate_coordinate?(coordinates)
-    @cells.include?(coordinates)
+    @cells.include?(coordinates) && @cells[coordinates].fired_upon? == false
   end
 
 
@@ -53,14 +52,6 @@ end
     end
   end
 
-  def descending_numbers(number)
-    (number.first) + (number.length - 1) == number.last
-  end
-
-  def descending_letter(letter)
-    (letter.first.ord) + (letter.length - 1) == letter.last.ord
-  end
-
   def occupied(ship_coordinate)
     ship_coordinate.any? do |coord|
       @cells[coord].empty? == false
@@ -76,20 +67,20 @@ end
    end
 
  def consecutive_numbers(number)
-    if (number.min.ord + 1) == (number[1].ord) && (number.max.ord - 1) == (number[1].ord)
+    if (number.first.ord + 1) == (number[1].ord) && (number.last.ord - 1) == (number[1].ord)
       true
     elsif number.count == 2
-      (number.min.ord + 1) == (number.max.ord)
+      (number.first.ord + 1) == (number.last.ord)
     else
       false
     end
   end
 
   def consecutive_letters(letter)
-     if letter.min.ord + 1 == letter[1].ord && letter.max.ord - 1 == letter[1].ord
+     if letter.first.ord + 1 == letter[1].ord && letter.last.ord - 1 == letter[1].ord
        true
      elsif letter.count == 2
-      letter.min.ord + 1 == letter.max.ord
+      letter.first.ord + 1 == letter.last.ord
      else
        false
      end
@@ -99,10 +90,8 @@ end
       if valid_placement?(ship, ship_coordinate) == true
         ship_coordinate.each do |coord|
           @cells[coord].place_ship(ship)
-          @cells_taken << coord
           end
         end
-        @cells_taken
       end
 
       def ai_place_cruiser(ship, coordinates)
@@ -153,18 +142,14 @@ end
             @cells[fire_coord].fire_upon
           end
           if @cells[fire_coord].render == "M"
-            puts "                            My shot on #{fire_coord} was a miss"
+            puts "                            My shot on #{fire_coord} was a Miss"
           elsif @cells[fire_coord].render == "H"
-            puts "                            My shot on #{fire_coord} was a hit"
+            puts "                            My shot on #{fire_coord} was a Hit"
           # elsif @cells[fire_coord].render == "X"
             # puts "My shot on #{fire_coord} was a hit and I sunk your #{@cells[fire_coord].ship.name}"
           end
         end
-
 #spaces for test |                                   |
-
-
-    # require "pry"; binding.pry
     def render(user = false)
       if user == true
         "                                      1 2 3 4 \n " +
