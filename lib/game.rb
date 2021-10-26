@@ -2,11 +2,11 @@ require './lib/board'
 require './lib/cell'
 require './lib/ship'
 
+
 class Game
 
   def initialize
-    @player_board = Board.new
-    @comp_board = Board.new
+    clear_boards
     @player_cruiser = Ship.new("Cruiser", 3)
     @player_submarine = Ship.new("Submarine", 2)
     @comp_cruiser = Ship.new("Cruiser", 3)
@@ -31,8 +31,9 @@ class Game
 
     if response == "p"
       set_up
+    elsif response == "q"
+      exit(true)
     end
-    return false if response == "q"
   end
 
   def set_up
@@ -55,7 +56,6 @@ class Game
     end
     @player_board.place(@player_cruiser, player_cruiser_coords)
 
-
     puts "                    Enter the squares for the submarine (2 coordinates)"
     player_sub_coords = gets.chomp.split(" ")
 
@@ -73,22 +73,9 @@ class Game
       @players_sunken_ships = 0
       @comp_sunken_ships = 0
 
-      if @player_cruiser.sunk?
-        @players_sunken_ships += 1
-      end
-      if @player_submarine.sunk?
-        @players_sunken_ships += 1
-      end
-
-      if @comp_cruiser.sunk?
-        @comp_sunken_ships += 1
-      end
-      if @comp_submarine.sunk?
-        @comp_sunken_ships += 1
-      end
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render # for testing purposes
+      puts                                 @comp_board.render(true)# for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
@@ -124,6 +111,21 @@ class Game
       if @comp_submarine.health == 0
         puts "                          Computer Submarine was sunk"
       end
+
+      if @player_cruiser.sunk?
+        @players_sunken_ships += 1
+      end
+      if @player_submarine.sunk?
+        @players_sunken_ships += 1
+      end
+
+      if @comp_cruiser.sunk?
+        @comp_sunken_ships += 1
+      end
+      if @comp_submarine.sunk?
+        @comp_sunken_ships += 1
+      end
+
       if @players_sunken_ships == 2 || @comp_sunken_ships == 2
         break
       end
@@ -146,18 +148,26 @@ class Game
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
     end
+    restart
+  end
+
+  def clear_boards
+    @player_board = Board.new
+    @comp_board = Board.new
+  end
+
+  def restart
+    puts '                           Would you like to play again?'
+    puts '                              Type Y to play again,     '
+    puts '                                       or           '
+    puts '                              press Q to quit    '
+
+    play_again = gets.chomp.strip.upcase
+    if play_again == "Y"
+      new_game = Game.new
+      new_game
+    elsif play_again == "Q"
+      exit(true)
+    end
   end
 end
-
-
-# puts '                           Would you like to play again?'
-# puts '                              Type Yes to play again    '
-# puts '                                       or           '
-# puts '                              anything else to quit    '
-#
-# play_again = gets.chomp.strip.capitalize
-# if play_again == "Yes"
-#   start
-# else
-# greeting
-# end
