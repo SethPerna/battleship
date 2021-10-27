@@ -18,6 +18,16 @@ class Game
   end
 
   def greeting
+    puts "                                  /        /
+                                           /        /
+                                          /        /
+                                        |~~|     |~~|
+                                        |~~|     |~~|
+                                       /~~~~\____/~~~\
+                             _________/                \_________
+                             \                                   /
+                   ~~~~~~~~~~~\~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~/~~~~~~~~~~
+                                \_____________________________/    "
     puts "                             Welcome to BATTLESHIP"
     puts "                        Enter p to play. Enter q to quit."
     response = gets.strip.downcase
@@ -75,7 +85,7 @@ class Game
 
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true)# for testing purposes
+      # puts                                 @comp_board.render# for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
