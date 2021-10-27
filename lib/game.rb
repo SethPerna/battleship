@@ -18,6 +18,16 @@ class Game
   end
 
   def greeting
+    puts "                                  /        /"
+    puts "                                 /        /"
+    puts "                                /        /"
+    puts "                              |~~|     |~~|"
+    puts "                              |~~|     |~~|"
+    puts "                             /   |-----| (P )"
+    puts '                   _________/                \__________ '
+    puts "                   &   o   o   o   o   o   o   o   o   7"
+    puts "         ~~~~~~~~~~~&~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~7~~~~~~~~~~"
+    puts "                     &_____________________________7    "
     puts "                             Welcome to BATTLESHIP"
     puts "                        Enter p to play. Enter q to quit."
     response = gets.strip.downcase
@@ -48,20 +58,20 @@ class Game
     puts @player_board.render
 
     puts "                     Enter the squares for the cruiser (3 coordinates)"
-    player_cruiser_coords = gets.chomp.split(" ")
+    player_cruiser_coords = gets.chomp.upcase.split(" ")
 
     until @player_board.valid_placement?(@player_cruiser, player_cruiser_coords) == true do
       puts "                       Invalid coordinates. Please try again:"
-      player_cruiser_coords = gets.chomp.split(" ")
+      player_cruiser_coords = gets.chomp.upcase.split(" ")
     end
     @player_board.place(@player_cruiser, player_cruiser_coords)
 
     puts "                    Enter the squares for the submarine (2 coordinates)"
-    player_sub_coords = gets.chomp.split(" ")
+    player_sub_coords = gets.chomp.upcase.split(" ")
 
     until @player_board.valid_placement?(@player_submarine, player_sub_coords) == true do
       puts "                       Invalid coordinates. Please try again:"
-      player_sub_coords = gets.chomp.split(" ")
+      player_sub_coords = gets.chomp.upcase.split(" ")
     end
     @player_board.place(@player_submarine, player_sub_coords)
     start
@@ -75,14 +85,14 @@ class Game
 
 
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true)# for testing purposes
+      puts                                 @comp_board.render#(true) # for testing purposes
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
       puts "                           Pick a coordinate to fire at"
 
       player_response = gets.chomp.capitalize
 
-      until @comp_board.validate_coordinate?(player_response) == true do   #&& @comp_board.cells[player_response].fired_up? == true do
+      until @comp_board.validate_coordinate?(player_response) == true do
         puts "                       Invalid coordinates. Please try again:"
         player_response = gets.chomp.capitalize
       end
@@ -137,14 +147,14 @@ class Game
       puts "                          ========= GAME OVER ========= "
       puts "                                      I won!"
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true) # for testing purposes
+      puts                                 @comp_board.render(true)
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
     elsif @comp_sunken_ships == 2
       puts "                          ========= GAME OVER ========= "
       puts "                                     You won!"
       puts "                      =========== COMPUTER BOARD =========== "
-      puts                                 @comp_board.render(true) # for testing purposes
+      puts                                 @comp_board.render(true)
       puts "                      ============ PLAYER BOARD ============ "
       puts                                 @player_board.render(true)
     end
@@ -160,7 +170,7 @@ class Game
     puts '                           Would you like to play again?'
     puts '                              Type Y to play again,     '
     puts '                                       or           '
-    puts '                              press Q to quit    '
+    puts '                                 press Q to quit    '
 
     play_again = gets.chomp.strip.upcase
     if play_again == "Y"
